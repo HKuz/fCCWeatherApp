@@ -3,16 +3,8 @@
  * Weather App Using Open Weather Map API
  * Images belong to Heather Kusmierz
 
-$.get is shorthand for:
-$.ajax({
-  url: url,
-  data: data,
-  success: success,
-  dataType: dataType
-});
 
-$.ajax({
-    url: url
+$.ajax(url, {
     type: 'GET',
     dataType: 'jsonp',
     success: function(data) { alert("Success"); },
@@ -43,9 +35,9 @@ $(function(){
             var longitude = Number(position.loc.split(",")[1]);
             console.log("Lat:", latitude, "\nLon:", longitude);
             var key = "8512de382a192bd2c09fd038bf5c0aca";
-            var url = "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude +  "&units=metric&APPID=" + key;
+            // var url = "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude +  "&units=metric&APPID=" + key;
             // var url = "https://crossorigin.me/http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude +  "&units=metric&APPID=" + key;
-            // var url = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude +  "&units=metric&APPID=" + key;
+            var url = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude +  "&units=metric&APPID=" + key;
 
 
             $("#weather").on("click", function(){
