@@ -1,10 +1,12 @@
+/* Images belong to Heather Kusmierz */
+
 body {
     color: #ddd;
     text-shadow: 2px 2px 2px #222;
 }
 
 .imghead {
-    background-image: url("https://scontent-lga3-1.xx.fbcdn.net/hphotos-xfp1/t31.0-8/54456_10151150578214635_1105147400_o.jpg");
+    background-image: url("../Images/BeachSunrise.jpg");
     background-position: center center;
     background-size: cover;
     height: 750px;
@@ -13,7 +15,7 @@ body {
 
 .header {
     font-size: 65px;
-    padding-top: 30px;  
+    padding-top: 30px;
 }
 
 #weather {
