@@ -21,7 +21,8 @@ function handleError(){
 
 
 function setHeader(xhr) {
-    xhr.setRequestHeader("Access-Control-Allow-Origin", "http://api.openweathermap.org");
+    // xhr.setRequestHeader("Access-Control-Allow-Origin", "http://api.openweathermap.org");
+    xhr.setRequestHeader("Access-Control-Allow-Origin", "https://cors-anywhere.herokuapp.com");
 }
 
 
@@ -35,9 +36,9 @@ $(function(){
             var longitude = Number(position.loc.split(",")[1]);
             console.log("Lat:", latitude, "\nLon:", longitude);
             var key = "8512de382a192bd2c09fd038bf5c0aca";
-            // var url = "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude +  "&units=metric&APPID=" + key;
+            var url = "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude +  "&units=metric&APPID=" + key;
             // var url = "https://crossorigin.me/http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude +  "&units=metric&APPID=" + key;
-            var url = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude +  "&units=metric&APPID=" + key;
+            // var url = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude +  "&units=metric&APPID=" + key;
 
 
             $("#weather").on("click", function(){
@@ -110,6 +111,7 @@ $(function(){
                     },  // End OpenWeather ajax success function
                     beforeSend: setHeader
                 });  // End openweathermap API ajax call
+                console.log("End ajax call");
             });  // End weather onclick block
         }  // End ipinfo ajax success function
     });  // End ipinfo ajax call
