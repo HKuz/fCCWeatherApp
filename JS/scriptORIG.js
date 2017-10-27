@@ -6,15 +6,16 @@
 
 
 $(document).ready(function(){
-    var testing = true;
     if(navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position){
-            console.log(position);
+            // console.log(position);
             var latitude = position.coords.latitude;
             var longitude = position.coords.longitude;
             var key = "8512de382a192bd2c09fd038bf5c0aca";
             var url = "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude +  "&units=metric&APPID=" + key;
 
+            // Hardcoded api call to test page functionality
+            //var data = {"coord":{"lon":138.93,"lat":34.97},"weather":[{"id":802,"main":"Clouds","description":"scattered clouds","icon":"03n"}],"base":"cmc stations","main":{"temp":9.41,"pressure":1025.25,"humidity":100,"temp_min":9.41,"temp_max":9.41,"sea_level":1035.35,"grnd_level":1025.25},"wind":{"speed":1.12,"deg":255.003},"clouds":{"all":36},"dt":1456318998,"sys":{"message":0.0034,"country":"JP","sunrise":1456262433,"sunset":1456302901},"id":1851632,"name":"Shuzenji","cod":200};
 
             $("#weather").on("click", function(){
                 $.getJSON(url, function(dataOther) {
