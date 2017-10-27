@@ -13,10 +13,9 @@ $.ajax({
 
 $.ajax({
     url: url
-    data: data,
     type: 'GET',
     dataType: 'jsonp',
-    success: function() { alert("Success"); },
+    success: function(data) { alert("Success"); },
     error: function() { alert('Failed!'); },
     beforeSend: setHeader
 });
@@ -29,83 +28,88 @@ function handleError(){
 }
 
 $(function(){
-    $.get("https://ipinfo.io", function(position){
-        var latitude = Number(position.loc.split(",")[0]);
-        var longitude = Number(position.loc.split(",")[1]);
-        console.log("Lat:", latitude, "\nLon:", longitude);
-        var key = "8512de382a192bd2c09fd038bf5c0aca";
-        // var url = "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude +  "&units=metric&APPID=" + key;
-        var url = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude +  "&units=metric&APPID=" + key;
+    $.ajax("https://ipinfo.io", {
+        type: "GET",
+        dataType: "jsonp",
+        error: handleError,
+        success: function(position) {
+            var latitude = Number(position.loc.split(",")[0]);
+            var longitude = Number(position.loc.split(",")[1]);
+            console.log("Lat:", latitude, "\nLon:", longitude);
+            var key = "8512de382a192bd2c09fd038bf5c0aca";
+            // var url = "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude +  "&units=metric&APPID=" + key;
+            var url = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude +  "&units=metric&APPID=" + key;
 
 
-        $("#weather").on("click", function(){
-            console.log("In the on-click function");
-            $.getJSON(url, function(data) {
-                console.log("Inside on click block");
-                // Hardcoded API call to test page functionality
-                // var data = {"coord":{"lon":138.93,"lat":34.97},"weather":[{"id":802,"main":"Clouds","description":"scattered clouds","icon":"03n"}],"base":"cmc stations","main":{"temp":9.41,"pressure":1025.25,"humidity":100,"temp_min":9.41,"temp_max":9.41,"sea_level":1035.35,"grnd_level":1025.25},"wind":{"speed":1.12,"deg":255.003},"clouds":{"all":36},"dt":1456318998,"sys":{"message":0.0034,"country":"JP","sunrise":1456262433,"sunset":1456302901},"id":1851632,"name":"Shuzenji","cod":200};
-                var city = data.name;
-                var country = data.sys.country;
-                var temp = data.main.temp; //temp should be in C
-                var forecast = data.weather[0].main;
-                var icon = data.weather[0].icon;
-                var iconUrl = "http://openweathermap.org/img/w/" + icon + ".png";
-                $("#location").html("Location: " + city + ", "+ country);
-                $("#forecast").html("Weather: " + forecast +" <img src='" + iconUrl +"'>");
-                $("#temp").html("Temperature: " + Number(temp).toFixed(1) +" ");
-                $("#degree").html("&deg;C");
+            $("#weather").on("click", function(){
+                console.log("In the on-click function");
+                $.getJSON(url, function(data) {
+                    console.log("Inside on click block");
+                    // Hardcoded API call to test page functionality
+                    // var data = {"coord":{"lon":138.93,"lat":34.97},"weather":[{"id":802,"main":"Clouds","description":"scattered clouds","icon":"03n"}],"base":"cmc stations","main":{"temp":9.41,"pressure":1025.25,"humidity":100,"temp_min":9.41,"temp_max":9.41,"sea_level":1035.35,"grnd_level":1025.25},"wind":{"speed":1.12,"deg":255.003},"clouds":{"all":36},"dt":1456318998,"sys":{"message":0.0034,"country":"JP","sunrise":1456262433,"sunset":1456302901},"id":1851632,"name":"Shuzenji","cod":200};
+                    var city = data.name;
+                    var country = data.sys.country;
+                    var temp = data.main.temp; //temp should be in C
+                    var forecast = data.weather[0].main;
+                    var icon = data.weather[0].icon;
+                    var iconUrl = "http://openweathermap.org/img/w/" + icon + ".png";
+                    $("#location").html("Location: " + city + ", "+ country);
+                    $("#forecast").html("Weather: " + forecast +" <img src='" + iconUrl +"'>");
+                    $("#temp").html("Temperature: " + Number(temp).toFixed(1) +" ");
+                    $("#degree").html("&deg;C");
 
-                // Background Image
-                switch (forecast) {
-                    case "Thunderstorm":
-                        // Storm clouds in New Mexico
-                        $(".imghead").css("background-image", "url('../Images/NewMexicoStorm.jpg')");
-                        break;
-                    case "Drizzle":
-                        // Droplets on clover
-                        $(".imghead").css("background-image", "url('../Images/WetClovers.jpg')");
-                        break;
-                    case "Rain":
-                        // Fat droplets on grass
-                        $(".imghead").css("background-image", "url('../Images/RainonGrass.jpg')");
-                        break;
-                    case "Snow":
-                        // Turkey in the snow
-                        $(".imghead").css("background-image", "url('../Images/TurkeyinSnow.jpg')");
-                        break;
-                    case "Clear":
-                        // Palm tree shadows along L'Anse Vata
-                        $(".imghead").css("background-image", "url('../Images/PalmShadows.jpg')");
-                        break;
-                    case "Clouds":
-                        // CO sunset
-                        $(".imghead").css("background-image", "url('../Images/CloudyCOSunset.jpg')");
-                        break;
-                    case "Atmosphere":
-                        // Morning haze over daisies
-                        $(".imghead").css("background-image", "url('../Images/HazeBeckyWhiteDaisies.jpg')");
-                        break;
-                    default:
-                        // Beach sunrise
-                        $(".imghead").css("background-image", "url('../Images/BeachSunrise.jpg')");
-                }
-
-                // Toggle for Temperature Conversion
-                var deg = "C";
-                $("#convert").on("click", function(){
-                    if (deg === "C") {
-                        temp = (temp * 9/5) + 32;
-                        deg = "F";
-                    } else {
-                        temp = (temp - 32) * 5/9;
-                        deg = "C";
+                    // Background Image
+                    switch (forecast) {
+                        case "Thunderstorm":
+                            // Storm clouds in New Mexico
+                            $(".imghead").css("background-image", "url('../Images/NewMexicoStorm.jpg')");
+                            break;
+                        case "Drizzle":
+                            // Droplets on clover
+                            $(".imghead").css("background-image", "url('../Images/WetClovers.jpg')");
+                            break;
+                        case "Rain":
+                            // Fat droplets on grass
+                            $(".imghead").css("background-image", "url('../Images/RainonGrass.jpg')");
+                            break;
+                        case "Snow":
+                            // Turkey in the snow
+                            $(".imghead").css("background-image", "url('../Images/TurkeyinSnow.jpg')");
+                            break;
+                        case "Clear":
+                            // Palm tree shadows along L'Anse Vata
+                            $(".imghead").css("background-image", "url('../Images/PalmShadows.jpg')");
+                            break;
+                        case "Clouds":
+                            // CO sunset
+                            $(".imghead").css("background-image", "url('../Images/CloudyCOSunset.jpg')");
+                            break;
+                        case "Atmosphere":
+                            // Morning haze over daisies
+                            $(".imghead").css("background-image", "url('../Images/HazeBeckyWhiteDaisies.jpg')");
+                            break;
+                        default:
+                            // Beach sunrise
+                            $(".imghead").css("background-image", "url('../Images/BeachSunrise.jpg')");
                     }
-                    $("#temp").html("Temperature: " + Number(temp).toFixed(1));
-                    $("#degree").html("&deg;" + deg);
-                });  // End convert onclick function
-            });  // End $.getJSON call
-        });  // End weather onclick block
-    }, "jsonp");  // End .get block for ipinfo
+
+                    // Toggle for Temperature Conversion
+                    var deg = "C";
+                    $("#convert").on("click", function(){
+                        if (deg === "C") {
+                            temp = (temp * 9/5) + 32;
+                            deg = "F";
+                        } else {
+                            temp = (temp - 32) * 5/9;
+                            deg = "C";
+                        }
+                        $("#temp").html("Temperature: " + Number(temp).toFixed(1));
+                        $("#degree").html("&deg;" + deg);
+                    });  // End convert onclick function
+                });  // End $.getJSON call
+            });  // End weather onclick block
+        }  // End success function
+    });  // End ipinfo ajax call
 });  // End closure
 
 /*
