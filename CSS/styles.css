@@ -1,0 +1,25 @@
+body {
+    color: #ddd;
+    text-shadow: 2px 2px 2px #222;
+}
+
+.imghead {
+    background-image: url("https://scontent-lga3-1.xx.fbcdn.net/hphotos-xfp1/t31.0-8/54456_10151150578214635_1105147400_o.jpg");
+    background-position: center center;
+    background-size: cover;
+    height: 750px;
+    padding: 1px 1px 1px 1px;
+}
+
+.header {
+    font-size: 65px;
+    padding-top: 30px;  
+}
+
+#weather {
+  margin-bottom: 30px;
+}
+
+a, a:focus {
+    color: #ddd;
+}
