@@ -27,6 +27,12 @@ function handleError(){
     $("#location").html("Sorry, coordinates failed to load.");
 }
 
+
+function setHeader(xhr) {
+    xhr.setRequestHeader("Access-Control-Allow-Origin", "http://api.openweathermap.org");
+}
+
+
 $(function(){
     $.ajax("https://ipinfo.io", {
         type: "GET",
@@ -38,7 +44,8 @@ $(function(){
             console.log("Lat:", latitude, "\nLon:", longitude);
             var key = "8512de382a192bd2c09fd038bf5c0aca";
             // var url = "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude +  "&units=metric&APPID=" + key;
-            var url = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude +  "&units=metric&APPID=" + key;
+            var url = "https://crossorigin.me/http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude +  "&units=metric&APPID=" + key;
+            // var url = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude +  "&units=metric&APPID=" + key;
 
 
             $("#weather").on("click", function(){
@@ -46,7 +53,7 @@ $(function(){
                 $.ajax(url, {
                     type: "GET",
                     dataType: "jsonp",
-                    error: function() {alert("Error calling OpenWeather API!");},
+                    error: function(){alert("Error in weather call");},
                     success: function(data) {
                         console.log("Inside OpenWeather success function");
                         var city = data.name;
@@ -108,8 +115,8 @@ $(function(){
                             $("#temp").html("Temperature: " + Number(temp).toFixed(1));
                             $("#degree").html("&deg;" + deg);
                         });  // End convert onclick function
-                    }  // End OpenWeather ajax success function
-                    // headers: {Access-Control-Allow-Origin: "*"}
+                    },  // End OpenWeather ajax success function
+                    beforeSend: setHeader
                 });  // End openweathermap API ajax call
             });  // End weather onclick block
         }  // End ipinfo ajax success function
